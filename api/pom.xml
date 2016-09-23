@@ -14,12 +14,56 @@
 
     <packaging>war</packaging>
 
+    <inceptionYear>
+        2016
+    </inceptionYear>
+    <organization>
+        <name>Conciso GmbH</name>
+        <url>http://www.conciso.de</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>sventorben</id>
+            <name>Sven-Torben Janus</name>
+            <email>sven-torben.janus@conciso.de</email>
+            <url>https://github.com/sventorben</url>
+        </developer>
+        <developer>
+            <id>andrej</id>
+            <name>Andrej Thiele</name>
+            <email>andrej.thiele@conciso.de</email>
+        </developer>
+    </developers>
+
+    <issueManagement>
+        <url>https://github.com/conciso/coffeeshop/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <scm>
+        <url>git@github.com:conciso/coffeeshop.git</url>
+        <connection>scm:git:git://github.com/conciso/coffeeshop.git</connection>
+        <developerConnection>scm:git:git@github.com:conciso/coffeeshop.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <swarm.version>2016.9</swarm.version>
     </properties>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -50,6 +94,14 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>1.1.0.Alpha11</version>
+                <configuration>
+                    <name>coffeeshop.war</name>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -58,7 +110,7 @@
             <dependency>
                 <groupId>org.wildfly.swarm</groupId>
                 <artifactId>bom</artifactId>
-                <version>2016.9</version>
+                <version>${swarm.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -80,6 +132,21 @@
             <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
             <version>1.0.0.Final</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.theoryinpractise</groupId>
+            <artifactId>halbuilder-jaxrs</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.joda</groupId>
+            <artifactId>joda-money</artifactId>
+            <version>0.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
