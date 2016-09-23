@@ -17,8 +17,7 @@ public class ObjectMapperContextResolver implements ContextResolver<ObjectMapper
     SimpleModule module = new SimpleModule();
     module.addDeserializer(Money.class, new MoneyDeserializer());
     module.addSerializer(Money.class, new MoneySerializer());
-     objectMapper = new ObjectMapper()
-      .registerModule(module);
+     objectMapper = new ObjectMapper().registerModule(module);
   }
 
   @Override

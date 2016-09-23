@@ -29,7 +29,7 @@ public class RepresentationFactoryProducer {
     ContextResolver<ObjectMapper> resolver = providers.getContextResolver(
         ObjectMapper.class, MediaType.valueOf(RepresentationFactory.HAL_JSON));
     ObjectMapper objectMapper = resolver.getContext(Representation.class);
-    String docsUri = Joiner.on("/").join(servletContext.getContextPath(), "docs", "#{rel}");
+    String docsUri = Joiner.on("/").join(servletContext.getContextPath(), "docs", "{rel}.html");
     return new JsonRepresentationFactory(objectMapper)
         .withFlag(RepresentationFactory.COALESCE_LINKS)
         .withNamespace("coffeeshop", docsUri);

@@ -3,6 +3,7 @@ package com.github.conciso.coffeeshop.domain.model;
 import org.joda.money.Money;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Bill {
 
@@ -12,11 +13,18 @@ public class Bill {
     this.order = Objects.requireNonNull(order);
   }
 
-  public Money getCost() {
-    return order.getDrink().getPrice();
+  public Order getOrder() {
+    return order;
   }
 
-  public Drink getDrink() {
-    return order.getDrink();
+  public Money getCost() {
+    return order.getDrink().getPrice()
+        .plus(order.getAdditions().stream()
+            .map(Addition::getPrice)
+            .collect(Collectors.toList()));
+  }
+
+  public boolean isPayed() {
+    return order.isPayed();
   }
 }
