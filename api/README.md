@@ -39,4 +39,4 @@ Wildfly Swarm:
 [http://localhost:8080/browser.html#/api](http://localhost:8080/browser.html#/api)
 
 Wildfly Deployment:
-[http://localhost:8080/coffeshop/browser.html#/api](http://localhost:8080/coffeshop/browser.html#/coffeshop/api)
+[http://localhost:8080/coffeeshop/browser.html#/coffeeshop/api](http://localhost:8080/coffeeshop/browser.html#/coffeeshop/api)
