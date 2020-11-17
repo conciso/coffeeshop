@@ -1,42 +1,37 @@
-# Conciso's Coffee Shop - REST Hypermedia API
-This is the REST Hypermedia API for Conciso's Coffee Shop. It is based 
-on the [HAL standard](http://stateless.co/hal_specification.html).
 
-## Build with Maven
 
-You can build this project with maven like this:
+# Conciso Coffeeshop
 
-```
-mvn package
-```
+todo: insert some description here
 
-## Run with Wildfly Swarm (Recommended)
-After building the artifact with Maven you can run it as a Wildfly Swarm
-application:
+## Build and Run
+
+### Build
 
 ```
-java -jar target/coffeeshop-swarm.jar
+ mvn clean install
 ```
+This creates a docker image ```conciso-coffeeshop```.
 
-After starting the application the API will be available at 
-[http://localhost:8080/api](http://localhost:8080/api).
-
-## Deploy to Wildfly 
-Alternatively you can simply deploy the application to a running Wildfly 
-instance:
+### Build including integration test
 
 ```
-mvn wildfly:deploy-only
+ mvn clean install -P integration-test
 ```
 
-After deployment the API will be available at 
-[http://localhost:8080/coffeeshop/api](http://localhost:8080/coffeeshop/api).
+### Run the service
 
-## API Discovery
-To discover the API point your browser to the HAL Browser.
+To run the service (including the database):
+```
+docker-compose -f docker/src/test/docker/docker-compose.yml up
+```
+The service has the following rest resources:
+- ```localhost:8081/info```
+- ```localhost:8081/health```
+- ```localhost:8080/swagger-ui.html```
 
-Wildfly Swarm:
-[http://localhost:8080/browser.html#/api](http://localhost:8080/browser.html#/api)
+### Stop the service
 
-Wildfly Deployment:
-[http://localhost:8080/coffeeshop/browser.html#/coffeeshop/api](http://localhost:8080/coffeeshop/browser.html#/coffeeshop/api)
+```
+docker-compose -f docker/src/test/docker/docker-compose.yml down
+```

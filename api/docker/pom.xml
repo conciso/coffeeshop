@@ -1,0 +1,108 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>de.conciso.coffeeshop</groupId>
+    <artifactId>coffeeshop-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>coffeeshop-docker</artifactId>
+  <packaging>jar</packaging>
+
+  <properties>
+    <!-- Docker base-image -->
+    <docker.base.image.name>fabric8/java-alpine-openjdk11-jre</docker.base.image.name>
+    <docker.base.image.version>1.8.0</docker.base.image.version>
+    <docker.image.name>conciso/coffeeshop</docker.image.name>
+    <docker.image.tag>${project.version}</docker.image.tag>
+    <main.basedir>${project.basedir}${file.separator}..</main.basedir>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>de.conciso.coffeeshop</groupId>
+      <artifactId>coffeeshop-web</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>app</finalName>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>io.fabric8</groupId>
+          <artifactId>docker-maven-plugin</artifactId>
+          <version>${docker-maven-plugin.version}</version>
+          <configuration>
+            <images>
+              <image>
+                <name>${docker.image.name}</name>
+                <build>
+                  <from>
+                    ${docker.base.image.name}:${docker.base.image.version}
+                  </from>
+                  <tags>
+                    <tag>${docker.image.tag}</tag>
+                    <tag>latest</tag>
+                  </tags>
+                  <ports>
+                    <port>8080/tcp</port>
+                    <port>8081/tcp</port>
+                    <port>8787/tcp</port>
+                  </ports>
+                  <healthCheck>
+                    <interval>1m</interval>
+                    <timeout>1s</timeout>
+                    <retries>3</retries>
+                    <cmd>curl -f http://localhost:8081/health || exit 1</cmd>
+                  </healthCheck>
+                  <assembly>
+                    <basedir>/deployments</basedir>
+                    <inline>
+                      <files>
+                        <file>
+                          <source>
+                            ${main.basedir}${file.separator}web${file.separator}target${file.separator}app.jar
+                          </source>
+                        </file>
+                      </files>
+                    </inline>
+                  </assembly>
+                  <entryPoint>
+                    <shell>/deployments/run-java.sh</shell>
+                  </entryPoint>
+                  <optimise>true</optimise>
+                </build>
+              </image>
+            </images>
+          </configuration>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>build</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>sources</id>
+              <goals>
+                <goal>source</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>
