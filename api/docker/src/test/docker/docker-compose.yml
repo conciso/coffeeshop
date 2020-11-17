@@ -1,0 +1,12 @@
+version: '3'
+services:
+  parameter-configurator:
+    image: conciso/coffeeshop
+    ports:
+      - 8080:8080
+      - 8081:8081
+      - 8787:8787
+    environment:
+      - JAVA_OPTIONS=-agentlib:jdwp=transport=dt_socket,address=*:8787,server=y,suspend=n
+      - LOG_LEVEL_SERVICE=DEBUG
+      - LOG_LEVEL_ROOT=INFO

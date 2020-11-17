@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="console-log" target="SYSTEM_OUT"/>
+    </Appenders>
+    <Loggers>
+        <Logger name="de.conciso.coffeeshop" level="${env:LOG_LEVEL_SERVICE:-INFO}" additivity="false">
+            <appender-ref ref="console-log" level="${env:LOG_LEVEL_SERVICE:-INFO}"/>
+        </Logger>
+        <Root level="${env:LOG_LEVEL_ROOT:-WARN}" additivity="false">
+            <AppenderRef ref="console-log"/>
+        </Root>
+    </Loggers>
+</Configuration>
